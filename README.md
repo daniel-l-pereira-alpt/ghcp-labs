@@ -40,6 +40,7 @@ By the end of this course, participants will be able to:
 - **VS Code** with the GitHub Copilot and GitHub Copilot Chat extensions
 - **Python 3.10+** (Labs 02–04)
 - **GitHub CLI** (`gh`) with the Copilot extension — `gh extension install github/gh-copilot`
+- **[HVE Core](https://github.com/microsoft/hve-core)** VS Code extension (Labs 05–08) — install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ise-hve-essentials.hve-core)
 - Basic familiarity with Git and GitHub
 
 ---
