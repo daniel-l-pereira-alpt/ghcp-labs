@@ -1,37 +1,37 @@
 ---
 name: improve-tests
-description: >
-  Automatically identify and fill coverage gaps in the lab1 test suite.
-  Runs pytest --cov, finds uncovered lines, and writes new tests.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+---
 
-triggers:
-  - on: push
-    branches: [main]
+## Improve Lab02 Test Coverage
 
-steps:
-  - name: Run coverage analysis
-    run: |
-      cd lab1
-      pip install -r requirements.txt
-      pytest tests/ --cov=order_processor --cov-report=json --cov-report=term-missing -v
+Analyze the `lab02` test suite, identify coverage gaps in `order_processor.py`,
+and add focused pytest cases to cover those paths.
 
-  - name: Identify uncovered lines
-    prompt: |
-      Read the coverage JSON report. List all lines in order_processor.py
-      that are NOT covered. For each uncovered line, determine what test
-      case would exercise it.
+## Scope
 
-  - name: Write missing tests
-    prompt: |
-      For each uncovered code path you identified, write a pytest test
-      that covers it. Follow the existing test patterns:
-      - Use unittest.mock.patch for external calls
-      - Use in-memory SQLite for DB tests
-      - Use AsyncMock for async functions
-      - Use the make_order factory pattern from conftest.py
-      Add the tests to the appropriate test file.
+- Work only in `lab02`
+- Install dependencies with `pip install -r requirements.txt`
+- Run `pytest tests/ --cov=order_processor --cov-report=json --cov-report=term-missing -v`
 
-  - name: Verify coverage improved
-    run: |
-      cd lab1
-      pytest tests/ --cov=order_processor --cov-fail-under=90 -v
+## Coverage Analysis
+
+- Read the coverage JSON report and list the uncovered lines in `order_processor.py`
+- For each uncovered line, identify the smallest missing test case that would exercise it
+- Prefer adding tests to existing files under `lab02/tests`
+
+## Test Authoring Rules
+
+- Use `unittest.mock.patch` for external calls
+- Use in-memory SQLite for DB tests
+- Use `AsyncMock` for async functions
+- Use the shared `make_order` factory from `conftest.py`
+- Preserve intentional MCP exercise gaps unless a change is necessary for the targeted coverage work
+
+## Verification
+
+- Re-run `pytest tests/ --cov=order_processor --cov-report=term-missing --cov-fail-under=80 -v`
+- Summarize what changed, what coverage improved, and any remaining uncovered lines
